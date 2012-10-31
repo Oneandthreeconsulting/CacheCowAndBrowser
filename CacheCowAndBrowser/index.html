@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Cache Cow and Browsers Test</title>
+	<script src="Scripts/jquery-1.8.2.min.js"></script>
+</head>
+<body>
+	<pre id="output">
+	</pre>
+	<button id="getDefaultButton">Get with Default Headers</button>
+	<button id="getCacheControlButton">Get with Cache-Control Headers</button>
+	<button id="getPragmaExpiresButton">Get with Pragma and Expires Headers</button>
+	
+	<p>Try each button multiple times in Firefox, Chrome, and IE 9 with fiddler running to see this in action...</p>
+	<p>With Default headers, all browsers will use their internal cache, and so if another request from elsewhere causes cachecow entry to be invalid then this will not be picked up as no conditional requests are being made</p>
+	<p>With Cache-Control no-cache, Firefox and Chrome will correctly send conditional requests, but IE will always do an unconditional request</p>
+	<p>With Pragma and Expires headers, and max-age set in CacheCowHeaderProvider to 0, All browsers will send conditional requests as expected<p>
+</body>
+</html>
+
+<script type="text/javascript">
+	$.ajaxSetup({
+		headers: {
+			accept: "application/json",
+			"content-type": "application/json"
+		}
+	});
+
+	$(document).ready(function () {
+
+		$("#getDefaultButton").click(function () {
+
+			$('#output').text("Loading...");
+			
+			$.ajax(
+				"http://localhost:63047/Api/Values/GetDefaultHeaders", {
+					success: function (data) {
+						$('#output').text("Done.");
+					}
+				});
+
+		});
+		
+		$("#getCacheControlButton").click(function () {
+
+			$('#output').text("Loading...");
+
+			$.ajax(
+				"http://localhost:63047/Api/Values/GetWithNoCache", {
+					success: function (data) {
+						$('#output').text("Done.");
+					}
+				});
+
+		});
+		
+		$("#getPragmaExpiresButton").click(function () {
+
+			$('#output').text("Loading...");
+
+			$.ajax(
+				"http://localhost:63047/Api/Values/GetWithPragmaExpires", {
+					success: function (data) {
+						$('#output').text("Done.");
+					}
+				});
+
+		});
+	});
+</script>
