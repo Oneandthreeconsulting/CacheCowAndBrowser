@@ -16,6 +16,7 @@
 	<p>With Default headers, all browsers will use their internal cache, and so if another request from elsewhere causes cachecow entry to be invalid then this will not be picked up as no conditional requests are being made</p>
 	<p>With Cache-Control no-cache, Firefox and Chrome will correctly send conditional requests, but IE will always do an unconditional request</p>
 	<p>With Pragma and Expires headers, and max-age set in CacheCowHeaderProvider to 0, All browsers will send conditional requests as expected<p>
+	
 </body>
 </html>
 
